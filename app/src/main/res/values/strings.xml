@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LoftMoney</string>
+
+    <!-- AddActivity-->
+
+    <string name="add_hint_name">Name</string>
+    <string name="add_hint_price">Price</string>
+    <string name="btn_name">Adding</string>
 </resources>
