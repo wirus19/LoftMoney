@@ -24,27 +24,32 @@ public class AddActivity extends AppCompatActivity {
         nameInput.addTextChangedListener(txtwatcher);
         priceInput.addTextChangedListener(txtwatcher);
     }
-    private  TextWatcher txtwatcher = new TextWatcher() {
-         @Override
-         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-         }
+    private TextWatcher txtwatcher;
 
-         @Override
-         public void onTextChanged(CharSequence s, int start, int before, int count) {
-          String ninput =nameInput.getText().toString().trim();
-             String pinput =priceInput.getText().toString().trim();
-            addbutton.setEnabled(!ninput.isEmpty()&& !pinput.isEmpty());
-         }
+    {
+        txtwatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-         @Override
-         public void afterTextChanged(Editable s) {
+            }
 
-         }
-     };
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String name = nameInput.getText().toString().trim();
+                String price = priceInput.getText().toString().trim();
+                addbutton.setEnabled(!name.isEmpty() && !price.isEmpty());
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
 
+            }
+        };
     }
+
+
+}
 
 
 
