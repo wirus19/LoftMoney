@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".ItemActivity">
+    tools:context=".BalanceFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item" />
+        android:text="@string/hello_blank_fragment" />
+
 </FrameLayout>
