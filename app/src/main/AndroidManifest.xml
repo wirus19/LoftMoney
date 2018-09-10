@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vika.loftmoney">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"

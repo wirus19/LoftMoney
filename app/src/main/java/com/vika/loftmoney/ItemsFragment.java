@@ -1,35 +1,41 @@
 package com.vika.loftmoney;
 
 
+import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ItemsFragment extends Fragment {
-    private static final int TYPE_UNKNOWN = -1;
+    private static final String TAG = "ItemsFragment";
+
     private static final String KEY_TYPE = "type";
-    public static final int TYPE_INCOMES = 1;
-    public static final int TYPE_COSTS = 2;
+
     public static final int TYPE_BALANCE = 3;
+    private Api api;
 
 
-    public static ItemsFragment newInstance(int type) {
+    public static ItemsFragment newInstance(String type) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(ItemsFragment.KEY_TYPE, type);
+        bundle.putString(ItemsFragment.KEY_TYPE, type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -40,37 +46,35 @@ public class ItemsFragment extends Fragment {
 
     private RecyclerView recycler;
     private ItemsAdapter adapter;
-    private int type;
+    private String type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         Bundle args = getArguments();
-        if (args != null) {
-            type = args.getInt(KEY_TYPE, TYPE_UNKNOWN);
-            if (type == TYPE_UNKNOWN) {
-                throw new IllegalStateException("Unknown type");
-            }
-        } else {
-            throw new IllegalStateException("You must pass valid statement tye");
-        }
-        type = args.getInt(KEY_TYPE);
+        type = args.getString(KEY_TYPE);
+
         adapter = new ItemsAdapter();
+        Application application = getActivity().getApplication();
+        App app = (App) application;
+        api = app.getApi();
+        loadItems();
 
-
-        adapter.setItems(createTestItems());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_items, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onViewCreated: ");
         recycler = view.findViewById(R.id.recycler);
 
 
@@ -80,13 +84,119 @@ public class ItemsFragment extends Fragment {
 
     }
 
-    private List<Item> createTestItems() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("Milk", "70$"));
-        items.add(new Item("Orange", "2.5$"));
-        items.add(new Item("Pan", "70$"));
-        items.add(new Item("Glass", "10$"));
-        items.add(new Item("Apple", "3$"));
-        return items;
+    @Override
+    public void onDestroyView() {
+        Log.i(TAG, "onDestroyView: ");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    private void loadItems() {
+        Call call = api.getItems(type);
+        call.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                List<Item> items = response.body();
+                adapter.setItems(items);
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+
+            }
+        });
+//private void loadItems(){
+//    @SuppressLint("StaticFieldLeak")
+//    AsyncTask<Void,Void, List<Item>> asyncTask = new AsyncTask<Void, Void, List<Item>>() {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected List<Item> doInBackground(Void... voids) {
+//            Call call = api.getItems(type);
+//     try {
+//         Response<List<Item>> response= call.execute();
+//          List<Item> items =  response.body();
+//          return items;
+//     } catch (IOException e) {
+//         e.printStackTrace();
+//      }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Item> items) {
+//            if(items!=null){
+//                adapter.setItems(items);
+//            }
+//        }
+//    };
+//    asyncTask.execute();
+//}
+//    private void  loadItems(){
+//        retrofit2.Call call = api.getItems(type);
+//        try {
+//            Response<List<Item>> response= call.execute();
+//           List<Item> items =  response.body();
+//           adapter.setItems(items);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//public void loadItems(){
+//       new LoadItemsTask().start();;
+//}
+//private class LoadItemsTask implements Runnable, Handler.Callback{
+//        private  Thread thread;
+//        private Handler handler;
+
+//
+//        public LoadItemsTask(){
+//            thread = new Thread(this);
+//            handler = new Handler(this);
+//
+//
+//        }
+//public void start(){
+//            thread.start();
+//}
+//    @Override
+//    public void run() {
+//        Call<List<Item>> call = api.getItems(type);
+//       try {
+//           Response<List<Item>> response= call.execute();
+//           List<Item> items =  response.body();
+//
+//
+//                  Message message = handler.obtainMessage(111,items);
+//                  message.sendToTarget();
+//
+//
+//
+//      } catch (IOException e) {
+//           e.printStackTrace();
+//      }
+//    }
+//
+//    @Override
+//    public boolean handleMessage(Message msg) {
+//       if(msg.what==111)
+//       {
+//           List<Item>items= (List<Item>) msg.obj;
+//           adapter.setItems(items);
+//           return true;
+//       }
+//       return  false;
+//    }
+//}
+
+
     }
 }
