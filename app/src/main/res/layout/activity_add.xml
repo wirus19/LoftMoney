@@ -3,36 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/triadic100"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".AddActivity">
 
-    <EditText
-        android:id="@+id/name"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="112dp"
         android:hint="@string/add_hint_name"
-        android:inputType="text"
-        android:textColor="@color/greeny"
-        android:textColorHint="@color/gray50400"
+
+        android:textColorHint="@color/gray50400">
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
+    </android.support.design.widget.TextInputLayout>
 
 
-    <EditText
-        android:id="@+id/price"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/price_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:hint="@string/add_hint_price"
+        android:textColorHint="@color/perrywinkle_70" >
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="number"
-        android:textColor="@color/greeny"
-        android:textColorHint="@color/gray50400"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
+
+</android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/button"

@@ -11,6 +11,11 @@
     <string name="btn_name">Adding</string>
 
     <!-- Main screen -->
+    <string name="main_screen_title">Money tracker</string>
+    <string name="main_tab_incomes">@string/incomes</string>
+    <string name="main_tab_expenses">@string/costs</string>
+    <string name="main_tab_balance">@string/balance</string>
+
     <string-array name="main_tabs">
         <item>@string/incomes</item>
         <item>@string/costs</item>
